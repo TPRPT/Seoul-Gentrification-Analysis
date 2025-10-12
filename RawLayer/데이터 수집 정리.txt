@@ -1,0 +1,250 @@
+최근 5개년 2020~2025년 데이터 수집.
+
+부동산 실거래가 정보는 OpenAPI만 제공. 갱신주기는 매일 1회. 원하는 기간에 해당하는 모든 데이터를 수집할 것
+http://115.84.165.40/dataList/OA-21275/S/1/datasetView.do
+
+샘플 URL	서울시 부동산 실거래가 정보
+http://openapi.seoul.go.kr:8088/(인증키)/xml/tbLnOpendataRtmsV/1/5/
+샘플 URL	서울시 부동산 실거래가 정보(마곡일성트루엘플래닛)
+http://openapi.seoul.go.kr:8088/(인증키)/xml/tbLnOpendataRtmsV/1/5/2024/11500/강서구/10300/1/대지/0151/0039/극동빌라/20240903/연립다세대
+
+요청인자
+변수명	타입	변수설명	값설명
+KEY	String(필수)	인증키	OpenAPI 에서 발급된 인증키
+TYPE	String(필수)	요청파일타입	xml : xml, xml파일 : xmlf, 엑셀파일 : xls, json파일 : json
+SERVICE	String(필수)	서비스명	tbLnOpendataRtmsV
+START_INDEX	INTEGER(필수)	요청시작위치	정수 입력 (페이징 시작번호 입니다 : 데이터 행 시작번호)
+END_INDEX	INTEGER(필수)	요청종료위치	정수 입력 (페이징 끝번호 입니다 : 데이터 행 끝번호)
+RCPT_YR	STRING(선택)	접수연도	YYYY
+CGG_CD	STRING(선택)	자치구코드	5자리 정수
+CGG_NM	STRING(선택)	자치구명	문자열
+STDG_CD	STRING(선택)	법정동코드	5자리 정수
+LOTNO_SE	STRING(선택)	지번구분	1:대지,2:산,3:블럭
+LOTNO_SE_NM	STRING(선택)	지번구분명	문자열
+MNO	STRING(선택)	본번	4자리 정수
+SNO	STRING(선택)	부번	4자리 정수
+BLDG_NM	STRING(선택)	건물명	문자열
+CTRT_DAY	STRING(선택)	계약일	YYYYMMDD
+BLDG_USG	STRING(선택)	건물용도	아파트/단독다가구/연립다세대/오피스텔 택1
+
+출력값
+No	출력명	출력설명
+공통	list_total_count	총 데이터 건수 (정상조회 시 출력됨)
+공통	RESULT.CODE	요청결과 코드 (하단 메세지설명 참고)
+공통	RESULT.MESSAGE	요청결과 메시지 (하단 메세지설명 참고)
+1	RCPT_YR	접수연도
+2	CGG_CD	자치구코드
+3	CGG_NM	자치구명
+4	STDG_CD	법정동코드
+5	STDG_NM	법정동명
+6	LOTNO_SE	지번구분
+7	LOTNO_SE_NM	지번구분명
+8	MNO	본번
+9	SNO	부번
+10	BLDG_NM	건물명
+11	CTRT_DAY	계약일
+12	THING_AMT	물건금액(만원)
+13	ARCH_AREA	건물면적(㎡)
+14	LAND_AREA	토지면적(㎡)
+15	FLR	층
+16	RGHT_SE	권리구분
+17	RTRCN_DAY	취소일
+18	ARCH_YR	건축년도
+19	BLDG_USG	건물용도
+20	DCLR_SE	신고구분
+21	OPBIZ_RESTAGNT_SGG_NM	신고한 개업공인중개사 시군구명
+
+
+---
+
+부동산 전월세가 정보는 2024년도까지의 zip 파일이 제공되고 갱신주기는 매일 1회. OpenAPI로 모든 데이터는 물론 2025년 데이터에 접근 가능함
+https://data.seoul.go.kr/dataList/OA-21276/S/1/datasetView.do#
+
+샘플 URL	서울시 부동산 전월세가 정보
+http://openapi.seoul.go.kr:8088/(인증키)/xml/tbLnOpendataRentV/1/5/
+
+요청인자
+변수명	타입	변수설명	값설명
+KEY	String(필수)	인증키	OpenAPI 에서 발급된 인증키
+TYPE	String(필수)	요청파일타입	xml : xml, xml파일 : xmlf, 엑셀파일 : xls, json파일 : json
+SERVICE	String(필수)	서비스명	tbLnOpendataRentV
+START_INDEX	INTEGER(필수)	요청시작위치	정수 입력 (페이징 시작번호 입니다 : 데이터 행 시작번호)
+END_INDEX	INTEGER(필수)	요청종료위치	정수 입력 (페이징 끝번호 입니다 : 데이터 행 끝번호)
+RCPT_YR	STRING(선택)	접수연도	YYYY
+CGG_CD	STRING(선택)	자치구코드	5자리 정수
+CGG_NM	STRING(선택)	자치구명	문자열
+STDG_CD	STRING(선택)	법정동코드	5자리 정수
+LOTNO_SE	STRING(선택)	지번구분	1:대지,2:산,3:블럭
+MNO	STRING(선택)	본번	4자리 정수
+SNO	STRING(선택)	부번	4자리 정수
+CTRT_DAY	STRING(선택)	계약일	YYYYMMDD
+BLDG_NM	STRING(선택)	건물명	문자열
+BLDG_USG	STRING(선택)	건물용도	아파트/단독다가구/연립다세대/오피스텔 택1
+출력값
+No	출력명	출력설명
+공통	list_total_count	총 데이터 건수 (정상조회 시 출력됨)
+공통	RESULT.CODE	요청결과 코드 (하단 메세지설명 참고)
+공통	RESULT.MESSAGE	요청결과 메시지 (하단 메세지설명 참고)
+1	RCPT_YR	접수연도
+2	CGG_CD	자치구코드
+3	CGG_NM	자치구명
+4	STDG_CD	법정동코드
+5	STDG_NM	법정동명
+6	LOTNO_SE	지번구분
+7	LOTNO_SE_NM	지번구분명
+8	MNO	본번
+9	SNO	부번
+10	FLR	층
+11	CTRT_DAY	계약일
+12	RENT_SE	전월세 구분
+13	RENT_AREA	임대면적(㎡)
+14	GRFE	보증금(만원)
+15	RTFE	임대료(만원)
+16	BLDG_NM	건물명
+17	ARCH_YR	건축년도
+18	BLDG_USG	건물용도
+19	CTRT_PRD	계약기간
+20	NEW_UPDT_YN	신규갱신여부
+21	CTRT_UPDT_USE_YN	계약갱신권사용여부
+22	BFR_GRFE	종전 보증금
+23	BFR_RTFE	종전 임대료
+
+---
+
+서울시 상권분석서비스(추정매출-상권)은 2024년까지의 zip파일을 제공되고 갱신 주기는 분기별. OpenAPI로 2025년 2분기 데이터까지 접근가능.
+https://data.seoul.go.kr/dataList/OA-15572/S/1/datasetView.do#
+
+샘플 URL	서울시 상권분석서비스(추정매출-상권)
+http://openapi.seoul.go.kr:8088/(인증키)/xml/VwsmTrdarSelngQq/1/5/
+샘플 URL	서울시 상권분석서비스 기준_년분기_코드(추정매출-상권)
+http://openapi.seoul.go.kr:8088/(인증키)/xml/VwsmTrdarSelngQq/1/5/20241
+
+요청인자
+변수명	타입	변수설명	값설명
+KEY	String(필수)	인증키	OpenAPI 에서 발급된 인증키
+TYPE	String(필수)	요청파일타입	xml : xml, xml파일 : xmlf, 엑셀파일 : xls, json파일 : json
+SERVICE	String(필수)	서비스명	VwsmTrdarSelngQq
+START_INDEX	INTEGER(필수)	요청시작위치	정수 입력 (페이징 시작번호 입니다 : 데이터 행 시작번호)
+END_INDEX	INTEGER(필수)	요청종료위치	정수 입력 (페이징 끝번호 입니다 : 데이터 행 끝번호)
+STDR_YYQU_CD	STRING(선택)	기준_년분기_코드	
+출력값
+No	출력명	출력설명
+공통	list_total_count	총 데이터 건수 (정상조회 시 출력됨)
+공통	RESULT.CODE	요청결과 코드 (하단 메세지설명 참고)
+공통	RESULT.MESSAGE	요청결과 메시지 (하단 메세지설명 참고)
+1	STDR_YYQU_CD	기준_년분기_코드
+2	TRDAR_SE_CD	상권_구분_코드
+3	TRDAR_SE_CD_NM	상권_구분_코드_명
+4	TRDAR_CD	상권_코드
+5	TRDAR_CD_NM	상권_코드_명
+6	SVC_INDUTY_CD	서비스_업종_코드
+7	SVC_INDUTY_CD_NM	서비스_업종_코드_명
+8	THSMON_SELNG_AMT	당월_매출_금액
+9	THSMON_SELNG_CO	당월_매출_건수
+10	MDWK_SELNG_AMT	주중_매출_금액
+11	WKEND_SELNG_AMT	주말_매출_금액
+12	MON_SELNG_AMT	월요일_매출_금액
+13	TUES_SELNG_AMT	화요일_매출_금액
+14	WED_SELNG_AMT	수요일_매출_금액
+15	THUR_SELNG_AMT	목요일_매출_금액
+16	FRI_SELNG_AMT	금요일_매출_금액
+17	SAT_SELNG_AMT	토요일_매출_금액
+18	SUN_SELNG_AMT	일요일_매출_금액
+19	TMZON_00_06_SELNG_AMT	시간대_00~06_매출_금액
+20	TMZON_06_11_SELNG_AMT	시간대_06~11_매출_금액
+21	TMZON_11_14_SELNG_AMT	시간대_11~14_매출_금액
+22	TMZON_14_17_SELNG_AMT	시간대_14~17_매출_금액
+23	TMZON_17_21_SELNG_AMT	시간대_17~21_매출_금액
+24	TMZON_21_24_SELNG_AMT	시간대_21~24_매출_금액
+25	ML_SELNG_AMT	남성_매출_금액
+26	FML_SELNG_AMT	여성_매출_금액
+27	AGRDE_10_SELNG_AMT	연령대_10_매출_금액
+28	AGRDE_20_SELNG_AMT	연령대_20_매출_금액
+29	AGRDE_30_SELNG_AMT	연령대_30_매출_금액
+30	AGRDE_40_SELNG_AMT	연령대_40_매출_금액
+31	AGRDE_50_SELNG_AMT	연령대_50_매출_금액
+32	AGRDE_60_ABOVE_SELNG_AMT	연령대_60_이상_매출_금액
+33	MDWK_SELNG_CO	주중_매출_건수
+34	WKEND_SELNG_CO	주말_매출_건수
+35	MON_SELNG_CO	월요일_매출_건수
+36	TUES_SELNG_CO	화요일_매출_건수
+37	WED_SELNG_CO	수요일_매출_건수
+38	THUR_SELNG_CO	목요일_매출_건수
+39	FRI_SELNG_CO	금요일_매출_건수
+40	SAT_SELNG_CO	토요일_매출_건수
+41	SUN_SELNG_CO	일요일_매출_건수
+42	TMZON_00_06_SELNG_CO	시간대_건수~06_매출_건수
+43	TMZON_06_11_SELNG_CO	시간대_건수~11_매출_건수
+44	TMZON_11_14_SELNG_CO	시간대_건수~14_매출_건수
+45	TMZON_14_17_SELNG_CO	시간대_건수~17_매출_건수
+46	TMZON_17_21_SELNG_CO	시간대_건수~21_매출_건수
+47	TMZON_21_24_SELNG_CO	시간대_건수~24_매출_건수
+48	ML_SELNG_CO	남성_매출_건수
+49	FML_SELNG_CO	여성_매출_건수
+50	AGRDE_10_SELNG_CO	연령대_10_매출_건수
+51	AGRDE_20_SELNG_CO	연령대_20_매출_건수
+52	AGRDE_30_SELNG_CO	연령대_30_매출_건수
+53	AGRDE_40_SELNG_CO	연령대_40_매출_건수
+54	AGRDE_50_SELNG_CO	연령대_50_매출_건수
+55	AGRDE_60_ABOVE_SELNG_CO	연령대_60_이상_매출_건수
+
+
+---
+
+
+행정동 단위 서울 생활인구는 2025년 9월까지의 zip 파일을 제공하고 갱신주기는 매일. OpenAPI에서는 2025년 8월 부터의 데이터만 수집이 가능함. 따라서 그냥 모든 데이터를 csv 파일을 받아서 저장하고 아직 파일로 업로드 되지않은 10월 데이터~는 OpenAPI로 수집.
+https://data.seoul.go.kr/dataList/OA-14991/S/1/datasetView.do#AXexec
+
+샘플 URL	행정동별 서울생활인구(내국인)
+http://openapi.seoul.go.kr:8088/(인증키)/xml/SPOP_LOCAL_RESD_DONG/1/5/
+샘플 URL	행정동별 서울생활인구(내국인)-기준일
+http://openapi.seoul.go.kr:8088/(인증키)/xml/SPOP_LOCAL_RESD_DONG/1/5/20200617
+
+
+요청인자
+변수명	타입	변수설명	값설명
+KEY	String(필수)	인증키	OpenAPI 에서 발급된 인증키
+TYPE	String(필수)	요청파일타입	xml : xml, xml파일 : xmlf, 엑셀파일 : xls, json파일 : json
+SERVICE	String(필수)	서비스명	SPOP_LOCAL_RESD_DONG
+START_INDEX	INTEGER(필수)	요청시작위치	정수 입력 (페이징 시작번호 입니다 : 데이터 행 시작번호)
+END_INDEX	INTEGER(필수)	요청종료위치	정수 입력 (페이징 끝번호 입니다 : 데이터 행 끝번호)
+STDR_DE_ID	STRING(선택)	기준일ID	기준일
+TMZON_PD_SE	STRING(선택)	시간대구분	시간대구분
+ADSTRD_CODE_SE	STRING(선택)	행정동코드	행정동코드
+출력값
+No	출력명	출력설명
+공통	list_total_count	총 데이터 건수 (정상조회 시 출력됨)
+공통	RESULT.CODE	요청결과 코드 (하단 메세지설명 참고)
+공통	RESULT.MESSAGE	요청결과 메시지 (하단 메세지설명 참고)
+1	STDR_DE_ID	기준일ID
+2	TMZON_PD_SE	시간대구분
+3	ADSTRD_CODE_SE	행정동코드
+4	TOT_LVPOP_CO	총생활인구수
+5	MALE_F0T9_LVPOP_CO	남자0세부터9세생활인구수
+6	MALE_F10T14_LVPOP_CO	남자10세부터14세생활인구수
+7	MALE_F15T19_LVPOP_CO	남자15세부터19세생활인구수
+8	MALE_F20T24_LVPOP_CO	남자20세부터24세생활인구수
+9	MALE_F25T29_LVPOP_CO	남자25세부터29세생활인구수
+10	MALE_F30T34_LVPOP_CO	남자30세부터34세생활인구수
+11	MALE_F35T39_LVPOP_CO	남자35세부터39세생활인구수
+12	MALE_F40T44_LVPOP_CO	남자40세부터44세생활인구수
+13	MALE_F45T49_LVPOP_CO	남자45세부터49세생활인구수
+14	MALE_F50T54_LVPOP_CO	남자50세부터54세생활인구수
+15	MALE_F55T59_LVPOP_CO	남자55세부터59세생활인구수
+16	MALE_F60T64_LVPOP_CO	남자60세부터64세생활인구수
+17	MALE_F65T69_LVPOP_CO	남자65세부터69세생활인구수
+18	MALE_F70T74_LVPOP_CO	남자70세이상생활인구수
+19	FEMALE_F0T9_LVPOP_CO	여자0세부터9세생활인구수
+20	FEMALE_F10T14_LVPOP_CO	여자10세부터14세생활인구수
+21	FEMALE_F15T19_LVPOP_CO	여자15세부터19세생활인구수
+22	FEMALE_F20T24_LVPOP_CO	여자20세부터24세생활인구수
+23	FEMALE_F25T29_LVPOP_CO	여자25세부터29세생활인구수
+24	FEMALE_F30T34_LVPOP_CO	여자30세부터34세생활인구수
+25	FEMALE_F35T39_LVPOP_CO	여자35세부터39세생활인구수
+26	FEMALE_F40T44_LVPOP_CO	여자40세부터44세생활인구수
+27	FEMALE_F45T49_LVPOP_CO	여자45세부터49세생활인구수
+28	FEMALE_F50T54_LVPOP_CO	여자50세부터54세생활인구수
+29	FEMALE_F55T59_LVPOP_CO	여자55세부터59세생활인구수
+30	FEMALE_F60T64_LVPOP_CO	여자60세부터64세생활인구수
+31	FEMALE_F65T69_LVPOP_CO	여자65세부터69세생활인구수
+32	FEMALE_F70T74_LVPOP_CO	여자70세이상생활인구수
