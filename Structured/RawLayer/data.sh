@@ -13,7 +13,7 @@ YEARS=(2020 2021 2022 2023 2024 2025)
 STEP=1000
 END_LIMIT=20000
 
-# jq 확인
+# jq 확인 (사전 설치 필요)
 if ! command -v jq &> /dev/null; then
   echo "[INFO] jq not found. Installing..."
   sudo yum install -y epel-release
@@ -126,4 +126,4 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE
 LOCATION '${HDFS_BASE}/sales/';
 "
 
-echo "[DONE] ✅ Real Estate, Rent, Sales datasets (2020–2025) collected and loaded into Hive successfully."
+echo "[DONE] Real Estate, Rent, Sales datasets (2020–2025) collected and loaded into Hive successfully."

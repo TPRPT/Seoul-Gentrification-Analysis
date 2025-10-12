@@ -1,0 +1,10 @@
+data.sh
+: 서울 열린데이터포털 OpenAPI 기반 부동산 실거래가, 전월세가, 상권매출 데이터 자동 수집 및 HDFS 업로드, Hive 테이블 등록 자동화 코드
+
+Sample Data Set
+: "성수동" 필터링을 통하여 임의 수집된 부동산 실거래가, 전월세가, 상권 매출, 생활 인구 데이터
+
+*_processed.py
+: Hive 무한 대기 문제를 해결 하기 전의 Spark 기반 ETL 파이프라인
+: CSV → DataFrame → 가공 → Parquet 저장
+: 날짜 파싱 및 정제, 출력 확인

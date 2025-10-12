@@ -1,5 +1,5 @@
 # ==========================================
-# ① 환경 설정
+# 1. 환경 설정
 # ==========================================
 from pyspark.sql import SQLContext
 from pyspark.sql.types import *
@@ -12,7 +12,7 @@ logger = sc._jvm.org.apache.log4j
 logger.LogManager.getRootLogger().setLevel(logger.Level.ERROR)
 
 # ==========================================
-# ② CSV 로드
+# 2. CSV 로드
 # ==========================================
 file_path = "hdfs:///user/cloudera/raw/population/population_seongsu_all.csv"
 
@@ -28,7 +28,7 @@ def safe_float(x):
         return None
 
 # ==========================================
-# ③ Raw Schema 정의
+# 3. Raw Schema 정의
 # ==========================================
 schema = StructType([
     StructField("STDR_DE_ID", StringType(), True),       # 기준일
@@ -47,7 +47,7 @@ rows = data.map(lambda f: (
 df_population = sqlContext.createDataFrame(rows, schema=schema)
 
 # ==========================================
-# ④ YEAR, MONTH 추출
+# 4. YEAR, MONTH 추출
 # ==========================================
 def parse_year(v):
     return int(v[:4]) if v and len(v) >= 4 else None
@@ -62,7 +62,7 @@ df_population = df_population.withColumn("YEAR", year_udf(df_population.STDR_DE_
 df_population = df_population.withColumn("MONTH", month_udf(df_population.STDR_DE_ID))
 
 # ==========================================
-# ⑤ Processed Schema 정의 (실존 컬럼만)
+# 5. Processed Schema 정의 (실존 컬럼만)
 # ==========================================
 proc_schema = StructType([
     StructField("ADSTRD_CODE_SE", StringType(), True),
@@ -73,7 +73,7 @@ proc_schema = StructType([
 ])
 
 # ==========================================
-# ⑥ RDD 변환 → Processed DataFrame 생성
+# 6. RDD 변환 → Processed DataFrame 생성
 # ==========================================
 df_population_rdd = df_population.rdd.map(lambda r: (
     r.ADSTRD_CODE_SE,   # 행정동 코드
@@ -86,7 +86,7 @@ df_population_rdd = df_population.rdd.map(lambda r: (
 df_population_proc = sqlContext.createDataFrame(df_population_rdd, schema=proc_schema)
 
 # ==========================================
-# ⑦ 출력 확인
+# 7. 출력 확인
 # ==========================================
 print("=== Population PROCESSED Schema ===")
 df_population_proc.printSchema()
@@ -94,7 +94,9 @@ df_population_proc.printSchema()
 print("=== Population Sample Data ===")
 df_population_proc.show(5)
 
+# ==========================================
 # 8. 저장
+# ==========================================
 output_path = "hdfs:///user/cloudera/processed/population"
 df_population_proc.saveAsParquetFile(output_path)
 print("[저장 완료]", output_path)
