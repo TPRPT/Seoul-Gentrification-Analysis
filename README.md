@@ -1,8 +1,8 @@
 # Seoul-Gentrification-Analysis
-[ITM/Big Data Practice] 정형(공공데이터) + 비정형(SNS, 뉴스, 블로그 텍스트) 융합형 젠트리피케이션(Gentrification) 지수 분석
+[ITM/Big Data Practice] 정형(공공데이터) + 비정형(블로그 텍스트) 융합형 젠트리피케이션(Gentrification) 지수 분석
 
 서울 열린데이터포털(Open Data Plaza)의 정형 데이터와  
-SNS·블로그·뉴스 등 비정형 데이터 소스를 함께 수집·분석하여  
+블로그 비정형 데이터 소스를 함께 수집·분석하여  
 서울 내 **젠트리피케이션(Gentrification) 지수(GP Index)** 를 산출하는  
 **Hive + Spark 기반 도시 데이터 융합 분석 파이프라인**입니다.
 
