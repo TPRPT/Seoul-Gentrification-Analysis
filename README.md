@@ -1,56 +1,101 @@
-# Seoul-Gentrification-Analysis
-[ITM/Big Data Practice] 정형(공공데이터) + 비정형(블로그 텍스트) 융합형 젠트리피케이션(Gentrification) 지수 분석
-
-서울 열린데이터포털(Open Data Plaza)의 정형 데이터와  
-블로그 비정형 데이터 소스를 함께 수집·분석하여  
-서울 내 **젠트리피케이션(Gentrification) 지수(GP Index)** 를 산출하는  
-**Hive + Spark 기반 도시 데이터 융합 분석 파이프라인**입니다.
+# **Seoul-Gentrification-Analysis**
+서울 열린데이터포털의 정형 데이터와 블로그 기반 비정형 텍스트 데이터를 결합하여  
+서울 7개 지역의 **Gentrification Potential Index (GPI)** 를 산출하는  
+Hive + HDFS + Spark 기반 도시 데이터 분석 파이프라인입니다.
 
 ---
 
-## 프로젝트 개요
+# 🔷 Project Overview
+본 프로젝트는 두 가지 데이터 레이어를 통합합니다.
 
-본 프로젝트는 서울의 도시 변화를 수치적으로 추적하기 위해  
-다음 두 가지 데이터 계층을 통합합니다.
+| Layer | Description | Tech Stack |
+|-------|-------------|------------|
+| 🧱 **Structured Layer** | 부동산·전월세·상권매출·생활인구 데이터 정제 및 분석(SGI) | HDFS, Hive, Spark(1.x/3.x) |
+| 🌐 **Unstructured Layer** | 블로그 텍스트 기반 지역 이미지·감성 분석(UGI) | Python, Selenium, PySpark, NLP |
 
-| 계층 | 설명 | 주요 기술 |
-|------|------|------------|
-| 🧱 **Structured Layer** | 서울 열린데이터포털의 공공데이터 (부동산 실거래, 전월세, 상권매출 등) | `Hive`, `HDFS`, `Spark SQL`, `Beeline` |
-| 🌐 **Unstructured Layer** | SNS/블로그/뉴스 텍스트 기반 지역 이미지·감성 데이터 | `Python`, `Tweepy`, `BeautifulSoup`, `Selenium`, `KoNLPy`, `Spark NLP` |
-
-이 두 계층의 분석 결과를 융합하여  
-**지역 상권 변화율, 임대료 상승률, 감성 점수** 등을 종합한  
-**Gentrification Potential (GP) Index**를 산출합니다.
+최종적으로 **SGI(정형) + UGI(비정형)** 를 합산한 **GPI** 를 생성합니다.
 
 ---
 
-## 데이터 구성
+# 🔷 Structured Pipeline (정형 데이터)
 
-### 🧱 Structured Data (정형 데이터)
-| 테이블명 | 주요 컬럼 | 설명 |
-|-----------|-----------|------|
-| `real_estate_raw` | `RCPT_YR`, `STDG_CD`, `THING_AMT` | 부동산 실거래가 |
-| `rent_raw` | `RCPT_YR`, `STDG_CD`, `GRFE`, `RTFE` | 전월세 계약 정보 |
-| `sales_raw` | `STDR_YYQU_CD`, `TRDAR_CD_NM`, `THSMON_SELNG_AMT` | 상권 매출 정보 |
-| `population_raw` | `TMZON_PD_SE`, `TOT_LVPOP_CO`, `MALE_F*`, `FEMALE_F*` | 생활 인구 정보 |
+```
+Raw Layer → Processed Layer (Spark ETL) → Analysis Layer (SGI)
+```
 
-### 🌐 Unstructured Data (비정형 데이터)
-| 데이터 출처 | 수집 방식 | 주요 분석 내용 |
-|--------------|-----------|----------------|
-| **Twitter / X** | `tweepy` API | 지역명 기반 트윗 감성 점수 (긍·부정) |
-| **Naver Blog** | `BeautifulSoup`, `Selenium` | 상권 키워드별 언급량, 긍정어 빈도 |
-| **Naver News** | `News API` + `KoNLPy` | 지역 관련 뉴스 헤드라인 키워드 네트워크 |
+### **Raw Layer**
+- `data.sh` : OpenAPI → CSV 일일 수집  
+- `raw_upload_data.sh` : 과거 CSV(Historical) 수동 업로드  
+
+### **Processed Layer**
+- Spark ETL (`*_processed.py`)  
+- 날짜 파싱, 지역코드 표준화, 핵심 변수 추출  
+- `run_processed.sh` 로 ETL 일괄 실행  
+- `hive_processed.sh` 로 Hive 테이블 생성  
+
+### **Analysis Layer**
+- `analysis.py` : 5개 지표 계산  
+  - price / rent / sales / youth-inflow / senior-outflow  
+- Z-score + Min–Max → **SGI(0–100)** 산출  
 
 ---
 
-## 실행 환경 (제공 받은 VM 환경에서 진행)
+# 🔷 Unstructured Pipeline (비정형 텍스트)
 
-| 항목 | 버전 / 환경 |
-|------|--------------|
-| OS | CentOS 6 (Cloudera Quickstart VM) |
+비정형 파트는 Silver·Gold 코드 기반으로 다음만 수행합니다:
+
+```
+Raw Text → Silver (정제) → Gold (감성·키워드·토픽) → UGI 분석
+```
+
+- Silver : 텍스트 클리닝 & 기본 필터링  
+- Gold : 감성 분석 · 키워드 추출 · 임베딩 기반 특징 생성  
+- 월 단위 집계 후 **UGI(0–100)** 산출  
+
+---
+
+# 🔷 Execution (How to Run)
+
+### **Daily Pipeline**
+```bash
+bash RawLayer/data.sh
+bash ProcessedLayer/run_processed.sh
+bash ProcessedLayer/hive_processed.sh
+spark-submit AnalysisLayer/analysis.py
+```
+
+### **Historical Load**
+```bash
+bash RawLayer/raw_upload_data.sh
+bash ProcessedLayer/run_processed.sh
+```
+
+---
+
+# 🔷 Automation (Cron Example)
+매일 00:10 실행:
+```
+10 0 * * * bash /home/training/DataPipeline/pipeline.sh
+```
+
+---
+
+# 🔷 Output Structure
+```
+/processed/<dataset>/
+/final_output_zscore/<region_code>/SGI.csv   # Structured
+/gold/<dong>/UGI.csv                        # Unstructured
+GPI.csv                                      # Final Index
+```
+
+---
+
+# 🔷 Environment
+| Component | Version |
+|----------|---------|
 | Hadoop | 2.6.0-cdh5.4.3 |
-| Hive | 1.1.0-cdh5.4.3 |
-| Spark | 1.3.0 |
-| Python | 3.x (for unstructured analysis) |
+| Hive | 1.1.0 |
+| Spark | 1.3.0 (ETL), 3.x (Analysis) |
+| Python | 3.x |
 
 ---
