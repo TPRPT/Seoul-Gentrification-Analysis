@@ -1,0 +1,17 @@
+echo "===== STOP SAFE MODE ====="
+hdfs dfsadmin -safemode leave
+
+echo "===== DELETE OLD RAW & PROCESSED ====="
+sudo -u hdfs hdfs dfs -rm -r -skipTrash /user/cloudera/raw
+sudo -u hdfs hdfs dfs -rm -r -skipTrash /user/cloudera/processed
+
+echo "===== CREATE DIRECTORIES ====="
+sudo -u hdfs hdfs dfs -mkdir -p /user/cloudera/raw/{real_estate,rent,sales,population}
+sudo -u hdfs hdfs dfs -mkdir -p /user/cloudera/processed
+
+echo "===== FIX PERMISSIONS ====="
+sudo -u hdfs hdfs dfs -chown -R cloudera:cloudera /user/cloudera
+sudo -u hdfs hdfs dfs -chmod -R 755 /user/cloudera
+
+echo "===== RAW LAYER INITIALIZED ====="
+hdfs dfs -ls /user/cloudera/raw
